@@ -1,0 +1,40 @@
+@layout('layouts/vanilla')
+@section('content')
+<h1 class="title">Register</h1>
+<form class="" action="{{route('auth.register')}}" method="post">
+  {{ csrfField() }}
+  <div class="column is-9">
+    <div class="field">
+        <label class="label">Email-Address</label>
+        <div class="control">
+            <input class="input  {{hasErrorFor('email') ? ' is-danger' : ''}}" value="{{old('email', '')}}" type="email" name="email" placeholder="Email-Address">
+            @if(hasErrorFor('email'))
+              <p class="help is-danger">{{ getErrorFor('email') }}</p>
+            @endif
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Username</label>
+      <div class="control">
+        <input class="input {{hasErrorFor('username') ? ' is-danger' : ''}}" value="{{old('username', '')}}" type="text" name="username" placeholder="Username" >
+        @if(hasErrorFor('username'))
+          <p class="help is-danger">{{ getErrorFor('username') }}</p>
+        @endif
+      </div>
+    </div>
+    <div class="field">
+        <label class="label">Password</label>
+      <div class="control">
+        <input class="input {{ hasErrorFor('password') ? 'is-danger' : ''}}" type="password" name="password" placeholder="Password">
+        @if(hasErrorFor('password'))
+          <p class="help is-danger">{{ getErrorFor('password') }}</p>
+        @endif
+      </div>
+    </div>
+    <div class="control">
+      <button class="button is-link">Register</button>
+    </div>
+    </div>
+</form>
+@endsection

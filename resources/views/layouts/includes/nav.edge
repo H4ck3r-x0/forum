@@ -1,0 +1,35 @@
+<nav class="navbar is-dark" style="margin-bottom:30px;" role="navigation" aria-label="main navigation">
+  <div class="container">
+
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{{route('home')}}">
+      Forum
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          @loggedIn
+            <a href="{{route('auth.logout')}}" class="button is-warning">
+              <strong>Logout</strong>
+            </a>
+          @else
+            <a href="{{route('auth.register')}}" class="button is-warning">
+              <strong>Sign up</strong>
+            </a>
+            <a  href="{{route('auth.login')}}" class="button is-light">
+              Log in
+            </a>
+          @endloggedIn
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
