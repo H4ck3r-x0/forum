@@ -21,6 +21,13 @@ class User extends Model {
     })
   }
 
+  static formatDates (field, value) {
+    if (field === 'created_at') {
+      return value.format('YYYY-MM-DD')
+    }
+    return super.formatDates(field, value)
+  }
+
   /**
    * A relationship on tokens is required for auth to
    * work. Since features like `refreshTokens` or

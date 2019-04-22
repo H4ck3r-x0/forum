@@ -26,3 +26,9 @@ Route.get('/auth/logout', ({response, auth}) => {
   auth.logout()
   return response.route('home')
 }).middleware('auth').as('auth.logout')
+
+
+
+// user profile ..
+
+Route.get('/:username', 'User/ProfileController.index').as('userProfile')
