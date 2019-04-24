@@ -3,15 +3,19 @@
     General
   </p>
   <ul class="menu-list">
-    <li><a>Home</a></li>
-    <li><a>Profile</a></li>
+    <li><a href="{{route('home')}}">Home</a></li>
+    <li><a href="{{auth.user.username}}">Profile</a></li>
   </ul>
   <p class="menu-label">
-    Transactions
+    Tags
   </p>
   <ul class="menu-list">
-    <li><a>Payments</a></li>
-    <li><a>Transfers</a></li>
-    <li><a>Balance</a></li>
+    @each(tag in tags.toJSON())
+      <li>
+        <a class="is-info" href="#">
+          {{ tag.name }}
+        </a>
+      </li>
+    @endeach
   </ul>
 </aside>
