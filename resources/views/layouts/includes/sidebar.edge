@@ -4,7 +4,9 @@
   </p>
   <ul class="menu-list">
     <li><a href="{{route('home')}}">Home</a></li>
+    @loggedIn
     <li><a href="{{auth.user.username}}">Profile</a></li>
+    @endloggedIn
   </ul>
   <p class="menu-label">
     Tags

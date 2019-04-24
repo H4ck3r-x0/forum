@@ -21,9 +21,9 @@ class User extends Model {
     })
   }
 
-  static formatDates (field, value) {
-    if (field === 'created_at') {
-      return value.format('YYYY-MM-DD')
+  static castDates (field, value) {
+    if (['created_at', 'updated_at'].indexOf(field) > -1) {
+        return value.format('YYYY-MM-DD')
     }
     return super.formatDates(field, value)
   }

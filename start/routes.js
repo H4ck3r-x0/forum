@@ -7,6 +7,8 @@ const Route = use('Route')
 
 Route.on('/').render('home').as('home')
 
+Route.get('/pages/testing', 'PageController.index')
+
 
 Route.get('/auth/register', 'Auth/RegisterController.index')
     .middleware('CheckLoggedIn').as('auth.register')
