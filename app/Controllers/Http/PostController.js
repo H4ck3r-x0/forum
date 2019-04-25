@@ -10,10 +10,10 @@ class PostController {
 
   async store ({response, request, session, auth}) {
     const {title, tag, body} = request.all()
-    console.log(request.all());
+
     const rules = {
       title: 'required',
-      tag: 'required',
+      tag: 'required|exists:tags,id',
       body: 'required'
     }
 
