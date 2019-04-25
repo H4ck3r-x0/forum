@@ -1,13 +1,21 @@
 <aside class="menu">
+  @loggedIn
+    <a href="{{route('post.create')}}" class="button is-info is-fullwidth">New Post</a>
+  @endloggedIn
   <p class="menu-label">
     General
   </p>
   <ul class="menu-list">
     <li><a href="{{route('home')}}">Home</a></li>
-    @loggedIn
-    <li><a href="{{auth.user.username}}">Profile</a></li>
-    @endloggedIn
   </ul>
+  @loggedIn
+  <p class="menu-label">
+    Account
+  </p>
+  <ul class="menu-list">
+    <li><a href="{{route('userProfile', {username: auth.user.username})}}">Profile</a></li>
+  </ul>
+  @endloggedIn
   <p class="menu-label">
     Tags
   </p>

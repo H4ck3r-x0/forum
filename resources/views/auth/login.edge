@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="field">
-        <label class="label">Password</label>
+      <label class="label">Password</label>
       <div class="control">
         <input class="input {{ hasErrorFor('password') ? 'is-danger' : ''}}" type="password" name="password" placeholder="Password">
         @if(hasErrorFor('password'))
@@ -24,6 +24,11 @@
     </div>
     <div class="control">
       <button class="button is-link">Login</button>
+    </div>
+    <div class="control">
+      <p class="help">
+        <a href="{{route('auth.register')}}">Don't have an account?</a>
+      </p>
     </div>
     </div>
 </form>

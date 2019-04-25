@@ -7,30 +7,34 @@ const Route = use('Route')
 
 Route.on('/').render('home').as('home')
 
-Route.get('/pages/testing', 'PageController.index')
+Route.group(() => {
+  // auth routes
+  Route.get('register', 'Auth/RegisterController.index')
+      .middleware('CheckLoggedIn').as('auth.register')
 
+  Route.post('register', 'Auth/RegisterController.register')
+      .as('auth.register')
 
-Route.get('/auth/register', 'Auth/RegisterController.index')
-    .middleware('CheckLoggedIn').as('auth.register')
+  Route.get('login', 'Auth/LoginController.index')
+      .middleware('CheckLoggedIn').as('auth.login')
 
-Route.post('/auth/register', 'Auth/RegisterController.register')
-    .as('auth.register')
+  Route.post('login', 'Auth/LoginController.login')
+      .as('auth.login')
 
+  Route.get('logout', ({response, auth}) => {
+    auth.logout()
+    return response.route('home')
+  }).middleware('auth').as('auth.logout')
+  // end auth routes
+}).prefix('auth')
 
-Route.get('/auth/login', 'Auth/LoginController.index')
-    .middleware('CheckLoggedIn').as('auth.login')
-
-Route.post('/auth/login', 'Auth/LoginController.login')
-    .as('auth.login')
-
-
-Route.get('/auth/logout', ({response, auth}) => {
-  auth.logout()
-  return response.route('home')
-}).middleware('auth').as('auth.logout')
-
-
+// posts routes
+Route.group(() => {
+  Route.get('create', 'PostController.create').as('post.create')
+  Route.post('store', 'PostController.store').as('post.store')
+}).prefix('posts')
 
 // user profile ..
-
-Route.get('/:username', 'User/ProfileController.index').as('userProfile')
+Route.group(() => {
+  Route.get(':username', 'User/ProfileController.index').as('userProfile')
+}).prefix('profile')

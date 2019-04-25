@@ -1,0 +1,61 @@
+@layout('layouts/master')
+@section('content')
+<div class="card">
+  <div class="card-content">
+    <p class="title">
+      Create New Post
+    </p>
+    <form class="" action="{{route('post.store')}}" method="post">
+      {{ csrfField() }}
+      <div class="field">
+        <label class="label">Post Title</label>
+        <div class="control">
+          <input class="input {{hasErrorFor('title') ? ' is-danger' : ''}}" type="text" name="title" value="{{old('title', '')}}" placeholder="e.g. How can I learn Javascript?">
+          @if(hasErrorFor('title'))
+            <p class="help is-danger">{{ getErrorFor('title') }}</p>
+          @endif
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Choose a Tag</label>
+        <div class="control">
+          <div class="select {{hasErrorFor('tag') ? ' is-danger' : ''}}">
+            <select name="tag">
+              @each(tag in tags.toJSON())
+              <option value="{{tag.id}}">{{tag.name}}</option>
+              @endeach
+            </select>
+          </div>
+          @if(hasErrorFor('tag'))
+            <p class="help is-danger">{{ getErrorFor('tag') }}</p>
+          @endif
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Post Body</label>
+        <div class="control">
+          <textarea class="textarea {{hasErrorFor('body') ? ' is-danger' : ''}}" name="body" value="{{old('title', '')}}"></textarea>
+          @if(hasErrorFor('body'))
+            <p class="help is-danger">{{ getErrorFor('body') }}</p>
+          @endif
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <p class="control">
+          <button class="button is-primary">
+            Submit
+          </button>
+        </p>
+        <p class="control">
+          <a href="{{route('home')}}" class="button is-light">
+            Cancel
+          </a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
+@endsection
