@@ -10,13 +10,13 @@ Route.on('/').render('home').as('home')
 Route.group(() => {
   // auth routes
   Route.get('register', 'Auth/RegisterController.index')
-      .middleware('CheckLoggedIn').as('auth.register')
+      .middleware('guest').as('auth.register')
 
   Route.post('register', 'Auth/RegisterController.register')
       .as('auth.register')
 
   Route.get('login', 'Auth/LoginController.index')
-      .middleware('CheckLoggedIn').as('auth.login')
+      .middleware('guest').as('auth.login')
 
   Route.post('login', 'Auth/LoginController.login')
       .as('auth.login')
@@ -30,8 +30,10 @@ Route.group(() => {
 
 // posts routes
 Route.group(() => {
-  Route.get('create', 'PostController.create').as('post.create')
-  Route.post('store', 'PostController.store').as('post.store')
+  Route.get('create', 'PostController.create')
+  .as('post.create').middleware(['auth'])
+  Route.post('store', 'PostController.store')
+  .as('post.store').middleware(['auth'])
 }).prefix('posts')
 
 // user profile ..

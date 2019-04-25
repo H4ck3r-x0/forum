@@ -10,14 +10,19 @@ class CheckLoggedIn {
    * @param {Function} next
    */
   async handle ({ request, response, auth }, next) {
-        try {
-            const user = await auth.check()
-            if(user) {
-              return response.route('home')
-            }
-          } catch (error) {
-            await next()
-        }
+    let authenticated = true
+
+    try {
+      authenticated = await auth.check()
+    } catch (error) {
+      authenticated = false
+    }
+
+    if (authenticated) {
+      return response.route('home')
+    }
+
+    await next()
 
   }
 }
