@@ -22,6 +22,18 @@ class Post extends Model {
     return super.formatDates(field, value)
   }
 
+
+  static scopeForIndex (builder) {
+    return builder
+        .with('tag')
+        .with('user')
+        .with('replies')
+        .with('lastReply')
+        .with('lastReply.user')
+        .whereNull('parent_id')
+        .orderBy('last_reply_at', 'desc')
+  }
+
   tag () {
     return this.belongsTo('App/Models/Tag')
   }
