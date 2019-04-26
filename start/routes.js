@@ -30,15 +30,17 @@ Route.group(() => {
 
 // posts, replies routes
 Route.group(() => {
+  Route.get('unanswered', 'UnansweredPostController.index')
+  .as('post.unanswered')
   Route.get('create', 'PostController.create')
   .as('post.create').middleware(['auth'])
   Route.post('store', 'PostController.store')
   .as('post.store').middleware(['auth'])
-  Route.get(':slug', 'PostController.show')
-  .as('post.show')
   Route.post(':slug/reply', 'PostReplyController.store')
   .as('post.reply.store')
   .middleware(['auth'])
+  Route.get(':slug', 'PostController.show')
+  .as('post.show')
 }).prefix('posts')
 
 // user profile ..
