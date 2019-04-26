@@ -1,7 +1,9 @@
 'use strict'
 
-/** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
+const md5 = require('md5')
+
+/** @type {import('@adonisjs/framework/src/Hash')} */
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
@@ -19,6 +21,12 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+  }
+
+  static get computed () {
+    return [
+      'avatar'
+    ]
   }
 
   static castDates (field, value) {
@@ -40,6 +48,10 @@ class User extends Model {
    */
   tokens () {
     return this.hasMany('App/Models/Token')
+  }
+
+  getAvatar ({ email }) {
+    return `https://www.gravatar.com/avatar/${md5(email)}?s=100&d=mm`
   }
 }
 

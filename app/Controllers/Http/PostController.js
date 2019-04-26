@@ -2,8 +2,22 @@
 
 const { validateAll } = use('Validator')
 const Post = use('App/Models/Post')
+const moment = require('moment')
 
 class PostController {
+
+  async show ({ view, params }) {
+    let post = await Post.query()
+            .with('user')
+            .with('tag')
+            .with('replies')
+            .with('replies.user')
+            .where('slug', params.slug)
+            .firstOrFail()
+
+    return view.render('posts.show', {post: post.toJSON()})
+  }
+
   create ({ view }) {
     return view.render('posts.create')
   }
@@ -31,7 +45,8 @@ class PostController {
       title,
       body,
       tag_id: tag,
-      user_id: auth.user.id
+      user_id: auth.user.id,
+      last_reply_at: moment()
     })
 
     await post.save()

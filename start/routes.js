@@ -5,7 +5,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.on('/').render('home').as('home')
+Route.get('/', 'HomeController.index').as('home')
 
 Route.group(() => {
   // auth routes
@@ -28,12 +28,17 @@ Route.group(() => {
   // end auth routes
 }).prefix('auth')
 
-// posts routes
+// posts, replies routes
 Route.group(() => {
   Route.get('create', 'PostController.create')
   .as('post.create').middleware(['auth'])
   Route.post('store', 'PostController.store')
   .as('post.store').middleware(['auth'])
+  Route.get(':slug', 'PostController.show')
+  .as('post.show')
+  Route.post(':slug/reply', 'PostReplyController.store')
+  .as('post.reply.store')
+  .middleware(['auth'])
 }).prefix('posts')
 
 // user profile ..

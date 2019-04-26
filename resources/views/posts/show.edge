@@ -1,0 +1,85 @@
+@layout('layouts/master')
+@section('content')
+
+<div class="box">
+  <div class="section">
+    <h4 class="subtitle is-4">
+      {{ post.title }} <span class="tag">{{ post.tag.name }}</span>
+    </h4>
+    <article class="media">
+      <div class="media-left">
+        <figure class="image is-48x48">
+          <img src="{{post.user.avatar}}" alt="{{post.user.username}}">
+        </figure>
+      </div>
+      <div class="media-content">
+        <div class="content">
+          <strong>{{post.user.username}}</strong>
+          <p>
+            {{post.body}}
+          </p>
+          <small>{{post.created_at}}</small>
+        </div>
+
+          {{-- Replies --}}
+
+          @each(reply in post.replies)
+          <article class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="{{reply.user.avatar}}" alt="{{reply.user.username}}">
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <strong>{{reply.user.username}}</strong>
+                <p>
+                  {{reply.body}}
+                </p>
+                <small>{{reply.created_at}}</small>
+              </div>
+            </div>
+          </article>
+          @endeach
+      </div>
+      <div class="media-right">
+        <span class="has-text-grey-light">
+          {{post.replies.length}} {{pluralize('reply', post.replies.length)}}
+        </span>
+      </div>
+    </article>
+
+    {{-- Reply Form --}}
+    <div class="section">
+      @loggedIn
+      <form class="" action="{{route('post.reply.store', { slug: post.slug})}}" method="post">
+        {{ csrfField() }}
+        <div class="field">
+          <label class="label">Reply</label>
+          <div class="control">
+            <textarea class="textarea {{hasErrorFor('body') ? ' is-danger' : ''}}" name="body" value="{{old('title', '')}}"></textarea>
+            @if(hasErrorFor('body'))
+              <p class="help is-danger">{{ getErrorFor('body') }}</p>
+            @endif
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-primary">
+              Reply
+            </button>
+          </p>
+        </div>
+      </form>
+      @else
+        <div class="notification is-info">
+          Please <a href="{{route('auth.login')}}">Login</a> to reply to this post.
+        </div>
+      @endloggedIn
+    </div>
+
+  </div>
+</div>
+
+@endsection
