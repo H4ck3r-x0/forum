@@ -30,9 +30,10 @@ class User extends Model {
   }
 
   static castDates (field, value) {
-    if (['created_at', 'updated_at'].indexOf(field) > -1) {
-        return value.format('YYYY-MM-DD')
+    if (['created_at', 'updated_at'].includes(field)) {
+      return `${value.fromNow(true)} ago`
     }
+
     return super.formatDates(field, value)
   }
 

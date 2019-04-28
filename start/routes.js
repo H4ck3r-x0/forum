@@ -30,6 +30,8 @@ Route.group(() => {
 
 // posts, replies routes
 Route.group(() => {
+  Route.get('own', 'OwnPostController.index')
+  .as('post.own').middleware(['auth'])
   Route.get('unanswered', 'UnansweredPostController.index')
   .as('post.unanswered')
   Route.get('create', 'PostController.create')
@@ -42,6 +44,11 @@ Route.group(() => {
   Route.get(':slug', 'PostController.show')
   .as('post.show')
 }).prefix('posts')
+
+
+// Tags Route
+Route.get('/tag/:slug', 'TagPostController.index')
+    .as('post.tag')
 
 // user profile ..
 Route.group(() => {
