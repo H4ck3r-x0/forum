@@ -3,11 +3,11 @@
 const Post = use('App/Models/Post')
 
 class OwnPostController {
-  async index ({ view, auth }) {
+  async index ({ view, auth, request }) {
     let posts = await Post.query()
     .forIndex()
     .where('user_id', auth.user.id)
-    .fetch()
+    .paginate(request.input('page', 1), 4)
 
     return view.render('home', {posts: posts})
   }
