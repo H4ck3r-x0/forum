@@ -21,6 +21,42 @@
           <small>{{post.created_at}}</small>
         </div>
 
+          @if(post.answer)
+          {{-- Best Answer --}}
+          <div class="message is-info">
+            <div class="message-header is-flex">
+              Best Answer!
+              @if(auth.user && auth.user.id == post.user_id)
+                <a href="#" onclick="event.preventDefault(); document.getElementById('destroy').submit()">Remove</a>
+              @endif
+            </div>
+            <div class="message-body">
+              <article class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img src="{{post.answer.user.avatar}}" alt="{{post.answer.user.username}}">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <div class="content">
+                    <strong>{{post.answer.user.username}}</strong>
+                    <p>
+                      {{post.answer.body}}
+                    </p>
+                    <small>{{post.answer.created_at}}</small>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <form  action="{{route('post.best.answer.destroy', {slug: post.slug})}}?_method=DELETE" method="POST" id="destroy">
+            {{ csrfField() }}
+            <input type="hidden" name="answer_id" value="{{reply.id}}">
+          </form>
+
+          @endif
+
           {{-- Replies --}}
 
           @each(reply in post.replies)
@@ -36,11 +72,27 @@
                 <p>
                   {{reply.body}}
                 </p>
-                <small>{{reply.created_at}}</small>
+                <small>
+                  @if(auth.user && auth.user.id == post.user_id)
+                    <a href="#"
+                    onclick="event.preventDefault(); document.getElementById('answer-{{reply.id}}').submit()">
+                      Mark as a best answer
+                    </a>
+                  @endif
+                  {{reply.created_at}}
+                </small>
               </div>
             </div>
           </article>
           @endeach
+
+          @each(reply in post.replies)
+            <form  action="{{route('post.best.answer.store', {slug: post.slug})}}" method="POST" id="answer-{{reply.id}}">
+              {{ csrfField() }}
+              <input type="hidden" name="answer_id" value="{{reply.id}}">
+            </form>
+          @endeach
+
       </div>
       <div class="media-right">
         <span class="has-text-grey-light">
