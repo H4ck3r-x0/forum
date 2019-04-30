@@ -9,7 +9,7 @@ class PostBestAnswerController {
 
       let post = await Post.query()
       .where('slug', params.slug)
-      .where('user_id', auth.user.id)
+      .OwnedByUser(auth.user.id)
       .whereHas('replies', (builder) => {
         builder.where('id', answer_id)
       })
